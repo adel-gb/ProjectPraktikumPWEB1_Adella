@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Halaman Admin KING Hotel</title>
+    <link href="CSS/styleWebAdmin.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1>Halaman Admin KING Hotel</h1>
+        <h4>Selamat datang Admin^^. Anda bisa kelola Data Kamar dan Data Fasilitas disini.</h4>
+        
+        <!-- Form Kelola Data Kamar -->
+        <div class="section" id="data-kamar">
+            <h2>Data Kamar</h2>
+            <form id="form-kamar">
+                <input type="number" id="id-kamar" placeholder="Id Kamar" required>
+                <input type="file" id="gambar-kamar" placeholder="Gambar Kamar" accept="image/*" required>
+                <input type="text" id="jenis-kamar" placeholder="Jenis Kamar" required>
+                <input type="number" id="harga-kamar" placeholder="Harga" required>
+                <input type="text" id="fasilitas" placeholder="Fasilitas" required>
+                <button type="submit">Tambah Kamar</button>
+            </form>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Id Kamar</th>
+                        <th>Gambar Kamar</th>
+                        <th>Jenis Kamar</th>
+                        <th>Harga</th>
+                        <th>Fasilitas</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody id="kamar-list">
+                    <!-- Data kamar akan ditambahkan di sini -->
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Form Kelola Fasilitas Hotel -->
+        <div class="section" id="fasilitas-hotel">
+            <h2>Fasilitas Hotel</h2>
+            <form id="form-fasilitas">
+                <input type="number" id="id-fasilitas" placeholder="Id Fasilitas" required>
+                <input type="text" id="nama-fasilitas" placeholder="Nama Fasilitas" required>
+                <input type="file" id="gambar-fasilitas" placeholder="Gambar Fasilitas" accept="image/*" required>
+                <input type="text" id="deskripsi-fasilitas" placeholder="Deskripsi Fasilitas" required>
+                <input type="number" id="harga-fasilitas" placeholder="Harga" required>
+                <input type="text" id="jam-buka" placeholder="Jam Buka" required>
+                <button type="submit">Tambah Fasilitas</button>
+            </form>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Id Fasilitas</th>
+                        <th>Nama Fasilitas</th>
+                        <th>Gambar Fasilitas</th>
+                        <th>Deskripsi</th>
+                        <th>Harga</th>
+                        <th>Jam Buka</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody id="fasilitas-list">
+                    <!-- Data fasilitas akan ditambahkan di sini -->
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="section" id="data-pemesanan">
+            <h2>Data Pemesanan</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID Pemesanan</th>
+                        <th>Nama Pemesan</th>
+                        <th>Jenis Kelamin</th>
+                        <th>Nomor Identitas</th>
+                        <th>Jenis Kamar</th>
+                        <th>Tanggal Pesan</th>
+                        <th>Durasi Menginap</th>
+                        <th>Breakfast</th>
+                        <th>Total Harga</th>
+                    </tr>
+                </thead>
+                <tbody id="pemesanan-list">
+                    <!-- Data pemesanan akan ditambahkan di sini -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript untuk mengelola data kamar
+        document.getElementById('form-kamar').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const idKamar = document.getElementById('id-kamar').value;
+            const gambarKamar = document.getElementById('gambar-kamar').files[0];
+            const jenisKamar = document.getElementById('jenis-kamar').value;
+            const hargaKamar = document.getElementById('harga-kamar').value;
+            const fasilitas = document.getElementById('fasilitas').value;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const kamarList = document.getElementById('kamar-list');
+                const row = kamarList.insertRow();
+                row.innerHTML = `
+                    <td>${idKamar}</td>
+                    <td><img src="${e.target.result}" alt="Gambar Kamar" width="100"></td>
+                    <td>${jenisKamar}</td>
+                    <td>${hargaKamar}</td>
+                    <td>${fasilitas}</td>
+                    <td><button onclick="editKamar(this)">Edit</button> <button onclick="hapusKamar(this)">Hapus</button></td>
+                `;
+            };
+            reader.readAsDataURL(gambarKamar);
+
+            document.getElementById('form-kamar').reset();
+        });
+
+        // JavaScript untuk mengelola data fasilitas
+        document.getElementById('form-fasilitas').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const idFasilitas = document.getElementById('id-fasilitas').value;
+            const namaFasilitas = document.getElementById('nama-fasilitas').value;
+            const gambarFasilitas = document.getElementById('gambar-fasilitas').files[0];
+            const deskripsiFasilitas = document.getElementById('deskripsi-fasilitas').value;
+            const hargaFasilitas = document.getElementById('harga-fasilitas').value;
+            const jamBuka = document.getElementById('jam-buka').value;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const fasilitasList = document.getElementById('fasilitas-list');
+                const row = fasilitasList.insertRow();
+                row.innerHTML = `
+                    <td>${idFasilitas}</td>
+                    <td>${namaFasilitas}</td>
+                    <td><img src="${e.target.result}" alt="Gambar Fasilitas" width="100"></td>
+                    <td>${deskripsiFasilitas}</td>
+                    <td>${hargaFasilitas}</td>
+                    <td>${jamBuka}</td>
+                    <td><button onclick="editFasilitas(this)">Edit</button> <button onclick="hapusFasilitas(this)">Hapus</button></td>
+                `;
+            };
+            reader.readAsDataURL(gambarFasilitas);
+
+            document.getElementById('form-fasilitas').reset();
+        });
+
+        function editKamar(button) {
+            const row = button.parentElement.parentElement;
+            document.getElementById('id-kamar').value = row.cells[0].innerHTML;
+            // Handle edit for image (not straightforward, needs custom logic)
+            document.getElementById('jenis-kamar').value = row.cells[2].innerHTML;
+            document.getElementById('harga-kamar').value = row.cells[3].innerHTML;
+            document.getElementById('fasilitas').value = row.cells[4].innerHTML;
+            row.remove();
+        }
+
+        function hapusKamar(button) {
+            const row = button.parentElement.parentElement;
+            row.remove();
+        }
+
+        function editFasilitas(button) {
+            const row = button.parentElement.parentElement;
+            document.getElementById('id-fasilitas').value = row.cells[0].innerHTML;
+            // Handle edit for image (not straightforward, needs custom logic)
+            document.getElementById('nama-fasilitas').value = row.cells[1].innerHTML;
+            document.getElementById('deskripsi-fasilitas').value = row.cells[3].innerHTML;
+            document.getElementById('harga-fasilitas').value = row.cells[4].innerHTML;
+            document.getElementById('jam-buka').value = row.cells[5].innerHTML;
+            row.remove();
+        }
+
+        function hapusFasilitas(button) {
+            const row = button.parentElement.parentElement;
+            row.remove();
+        }
+    </script>
+</body>
+</html>
